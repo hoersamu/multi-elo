@@ -1,0 +1,80 @@
+name: Create_Release
+on:
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      version:
+        # Friendly description to be shown in the UI instead of 'name'
+        description: 'Semvar bump'
+        # Default value if no value is explicitly provided
+        default: 'patch'
+        # Input has to be provided for the workflow to run
+        required: true
+
+jobs:
+  build_and_release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Check input
+        if: github.event.inputs.version != "patch" && github.event.inputs.version != "minor" && github.event.inputs.version != "major"
+        run: exit 1
+
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v4
+        with:
+          gpg_private_key: ${{ secrets.PRIVATE_KEY_CI }}
+          passphrase: ${{ secrets.PASSWORD_KEY_CI }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+
+      - name: Install dependencies
+        run: npm ci --no-optional
+
+      - name: bump version
+        run: npm version ${{ github.event.inputs.version }}
+
+      - name: save version
+        run: echo "VERSION=$(npm pkg get version)" >> $GITHUB_ENV
+
+      - name: publish npm
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
+      - name: publish github
+        run: |
+          npm --reg https://npm.pkg.github.com/
+          run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GH_TOKEN}}
+
+      - name: Commit changes
+        run: |
+          git config --global user.name 'hoersamu'
+          git config --global user.email 'samuel@hoera.dev'
+          git commit -S -am "chore: bump version to ${{ env.VERSION }}"
+          git push -u origin HEAD
+
+      - name: Create Release strings
+        id: release_strings
+        run: |
+          echo "RELEASE_TAG=${{ env.VERSION }}" >> $GITHUB_ENV
+          echo "RELEASE_NAME=Version ${{ env.VERSION }}" >> $GITHUB_ENV
+          echo "RELEASE_FILENAME=coral-app-${{ env.VERSION }}.zip" >> $GITHUB_ENV
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ env.RELEASE_TAG }}
+          name: ${{ env.RELEASE_NAME }}
