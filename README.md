@@ -1,4 +1,4 @@
-# multielo
+# multi-elo
 
 This package implements a multiplayer extension of the popular Elo rating system.
 
