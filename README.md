@@ -16,14 +16,14 @@ For additional information, see his [blog post](https://towardsdatascience.com/d
 The package can be installed from GitHub or npm by using `npm`.
 
 ```bash
-npm install multielo
+npm install multi-elo
 ```
 
 You can install a specific released version of the package using tag names.
 For example, to install release v0.0.1 you can use:
 
 ```bash
-npm install multielo@v0.1.0
+npm install multi-elo@v0.0.1
 ```
 
 ## Example Usage
