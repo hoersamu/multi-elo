@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Check input
-        if: github.event.inputs.version != "patch" && github.event.inputs.version != "minor" && github.event.inputs.version != "major"
+        if: github.event.inputs.version != 'patch' && github.event.inputs.version != 'minor' && github.event.inputs.version != 'major'
         run: exit 1
 
       - name: Import GPG key
