@@ -53,10 +53,14 @@ jobs:
       #  env:
       #    NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
+    - name: Use Node.js 16.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+          registry-url: 'https://npm.pkg.github.com/'
+
       - name: publish github
-        run: |
-          npm config set registry=https://npm.pkg.github.com/
-          npm publish
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GH_TOKEN}}
 
