@@ -48,10 +48,10 @@ jobs:
       - name: save version
         run: echo "VERSION=$(npm pkg get version)" >> $GITHUB_ENV
 
-      - name: publish npm
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      #- name: publish npm
+      #  run: npm publish
+      #  env:
+      #    NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
       - name: publish github
         run: |
