@@ -49,7 +49,7 @@ jobs:
         run: echo "VERSION=$(npm pkg get version)" >> $GITHUB_ENV
 
       - name: publish npm
-        run: npm publish
+        run: npm publish --dry-run
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
@@ -58,7 +58,7 @@ jobs:
           git config --global user.name 'hoersamu'
           git config --global user.email 'samuel@hoera.dev'
           git commit -S -am "chore: bump version to ${{ env.VERSION }}"
-          git push -u origin HEAD
+          git push
 
       - name: Use Node.js 16.x
         uses: actions/setup-node@v1
