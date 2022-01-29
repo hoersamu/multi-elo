@@ -1,5 +1,12 @@
 # multi-elo
 
+<p align="center">
+  <a href="https://www.npmjs.com/package/multi-elo"><img src="https://img.shields.io/npm/v/multi-elo"/></a>
+  <a href="http://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg"/></a>
+</p>
+
+#
+
 This package implements a multiplayer extension of the popular Elo rating system.
 
 - [Installation](#installation)

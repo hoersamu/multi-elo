@@ -48,21 +48,10 @@ jobs:
       - name: save version
         run: echo "VERSION=$(npm pkg get version)" >> $GITHUB_ENV
 
-      #- name: publish npm
-      #  run: npm publish
-      #  env:
-      #    NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-
-      - name: Use Node.js 16.x
-        uses: actions/setup-node@v1
-        with:
-          node-version: 16.x
-          registry-url: 'https://npm.pkg.github.com/'
-
-      - name: publish github
+      - name: publish npm
         run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{secrets.GH_TOKEN}}
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
       - name: Commit changes
         run: |
@@ -70,6 +59,31 @@ jobs:
           git config --global user.email 'samuel@hoera.dev'
           git commit -S -am "chore: bump version to ${{ env.VERSION }}"
           git push -u origin HEAD
+
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+          registry-url: 'https://npm.pkg.github.com/'
+
+      - name: Insert repository owner as scope into package name
+        run: |
+          node <<EOF
+          const fs = require('fs').promises;
+          fs.readFile('package.json', 'utf8').then((data) => JSON.parse(data)).then((json) => {
+              json.name = '@$(echo "$GITHUB_REPOSITORY" | sed 's/\/.\+//')/' + json.name;
+              console.info('Package name changed to %s', json.name);
+              return fs.writeFile('package.json', JSON.stringify(json), 'utf8');
+          }).catch(error => {
+              console.error(error);
+              process.exit(1);
+          });
+          EOF
+
+      - name: publish github
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GH_TOKEN}}
 
       - name: Create Release strings
         id: release_strings

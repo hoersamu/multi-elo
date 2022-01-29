@@ -1,6 +1,6 @@
 {
   "name": "multi-elo",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "This package implements a multiplayer extension of the popular Elo rating system",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -10,7 +10,6 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "tslint -p tsconfig.json",
     "prepare": "npm run build",
-    "prepublishOnly": "npm test && npm run lint",
     "preversion": "npm run lint",
     "version": "npm run format"
   },
