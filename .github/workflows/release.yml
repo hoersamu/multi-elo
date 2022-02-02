@@ -48,7 +48,9 @@ jobs:
         run: npm version ${{ github.event.inputs.version }}
 
       - name: save version
-        run: echo "VERSION=$(npm pkg get version)" >> $GITHUB_ENV
+        run: |
+          PKG_VERSION=$(npm pkg get version)
+          echo "VERSION=${PKG_VERSION:1:-1}" >> $GITHUB_ENV
 
       - name: publish npm
         run: npm publish --dry-run
