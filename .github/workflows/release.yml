@@ -5,9 +5,9 @@ on:
     inputs:
       version:
         # Friendly description to be shown in the UI instead of 'name'
-        description: 'Semvar bump'
+        description: "Semvar bump"
         # Default value if no value is explicitly provided
-        default: 'patch'
+        default: "patch"
         # Input has to be provided for the workflow to run
         required: true
 
@@ -50,6 +50,11 @@ jobs:
         run: |
           PKG_VERSION=$(npm pkg get version)
           echo "VERSION=${PKG_VERSION:1:-1}" >> $GITHUB_ENV
+
+      - name: build
+        run: |
+          npm run buildpackage
+          cd lib
 
       - name: publish npm
         run: npm publish --dry-run
