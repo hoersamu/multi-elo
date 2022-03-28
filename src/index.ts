@@ -1,1 +1,1 @@
-export * from './multiElo';
+export * from "./multiElo";
