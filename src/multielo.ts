@@ -157,3 +157,7 @@ export class MultiElo {
     return this.instance;
   }
 }
+
+export function getNewRatings(oldRatings: number[], resultOrder?: number[]) {
+  return MultiElo.getNewRatings(oldRatings, resultOrder);
+}

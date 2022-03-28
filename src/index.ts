@@ -1,3 +1,1 @@
-import { MultiElo } from './multielo';
-
-module.exports = MultiElo;
+export * from './multiElo';
