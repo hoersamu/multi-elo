@@ -38,7 +38,7 @@ npm install multi-elo@v0.0.1
 The following example shows how to calculate updated Elo ratings after a matchup using the default settings in the package.
 
 ```typescript
-import { MultiElo } from 'multielo';
+import { MultiElo } from 'multi-elo';
 
 # player with 1200 rating beats a player with 1000 rating
 MultiElo.getNewRatings([1200, 1000])
