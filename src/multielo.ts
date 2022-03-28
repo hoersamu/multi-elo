@@ -149,7 +149,7 @@ export class MultiElo {
   }
 
   static getNewRatings(oldRatings: number[], resultOrder?: number[]) {
-    this.getInstance().getNewRatings(oldRatings, resultOrder);
+    return this.getInstance().getNewRatings(oldRatings, resultOrder);
   }
 
   private static getInstance() {
