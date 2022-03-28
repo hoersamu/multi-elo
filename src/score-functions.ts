@@ -1,4 +1,4 @@
-import { range } from './utils';
+import { range } from "./utils";
 
 export const sumReducer = (previousValue: number, currentValue: number) => previousValue + currentValue;
 
@@ -27,7 +27,7 @@ const linearScoreFunction = (n: number): number[] => {
  * @returns array of the points to assign to each place (summing to 1)
  */
 const exponentialScoreFunction = (n: number, base: number): number[] => {
-  if (base < 1) throw new Error('Base must be >= 1');
+  if (base < 1) throw new Error("Base must be >= 1");
 
   const out: number[] = range(n, 1).map((p) => Math.pow(base, n - p) - 1);
   const sum = out.reduce(sumReducer);
