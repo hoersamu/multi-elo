@@ -55,7 +55,9 @@ jobs:
         run: npm run buildpackage
 
       - name: publish npm
-        run: cd lib && npm publish
+        run: |
+          cd lib
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
