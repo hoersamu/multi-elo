@@ -10,7 +10,7 @@ jobs:
       SECRETS_AVAILABLE: ${{ secrets.CI_PERSONAL_TOKEN != '' }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           token: ${{ secrets.CI_PERSONAL_TOKEN || github.token }}
 
@@ -51,7 +51,7 @@ jobs:
     needs: [prettify]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Use Node.js 16.x
         uses: actions/setup-node@v1
