@@ -1,5 +1,5 @@
-import { createExponentialScoreFuntion, ScoreFunction, sumReducer } from './score-functions';
-import { argsort, close, range } from './utils';
+import { createExponentialScoreFuntion, ScoreFunction, sumReducer } from "./score-functions";
+import { argsort, close, range } from "./utils";
 
 export type MultiEloConfig = {
   logBase?: number;
@@ -52,7 +52,7 @@ export class MultiElo {
     const actualScores = this.getActualScores(n, resultOrder);
     const expectedScores = this.getExpectedScores(initialRatings);
     const scaleFactor = this.config.k * (n - 1);
-    this.console.log('scaleFactor: ' + scaleFactor);
+    this.console.log("scaleFactor: " + scaleFactor);
 
     return initialRatings.map((m, i) => m + scaleFactor * (actualScores[i] - expectedScores[i]));
   }
@@ -85,7 +85,7 @@ export class MultiElo {
     }
 
     this.console.log(resultOrder);
-    this.console.log('Calculated actual scores: ', scores);
+    this.console.log("Calculated actual scores: ", scores);
     this.validateActualScores(scores, resultOrder);
     return scores;
   }
@@ -99,7 +99,7 @@ export class MultiElo {
   private validateActualScores(scores: number[], resultOrder: number[]) {
     const scoreSum = scores.reduce(sumReducer);
     if (!close(1, scoreSum)) {
-      throw new Error('Scoring function does not return scores summing to 1');
+      throw new Error("Scoring function does not return scores summing to 1");
     }
 
     if (Math.min(...scores) !== 0) {
@@ -107,7 +107,7 @@ export class MultiElo {
       // so only raise error if there isn't a tie for last
       const lastPlace = Math.max(...resultOrder);
       if (resultOrder.filter((f) => f === lastPlace).length === 1) {
-        throw new Error('Scoring function does not return minimum value of 0');
+        throw new Error("Scoring function does not return minimum value of 0");
       }
     }
 
@@ -121,17 +121,17 @@ export class MultiElo {
    * @returns array of expected scores for all players
    */
   getExpectedScores(ratings: number[]): number[] {
-    this.console.log('Calculating expected scores for: ', ratings);
+    this.console.log("Calculating expected scores for: ", ratings);
 
     // get all pairwise differences
     const diffMx = ratings.map((m) => ratings.map((mn) => mn - m));
-    this.console.log('DiffMx: ', diffMx);
+    this.console.log("DiffMx: ", diffMx);
 
     // get individual contributions to expected score using logistic function
     const logisticMx = diffMx.map((m, i) =>
       m.map((mn, j) => (i === j ? 0 : 1 / (1 + Math.pow(this.config.logBase, mn / this.config.d)))),
     );
-    this.console.log('LogisticMx: ', logisticMx);
+    this.console.log("LogisticMx: ", logisticMx);
 
     const n = ratings.length;
     // number of individual head-to-head matchups between n players
@@ -140,10 +140,10 @@ export class MultiElo {
 
     // this should be guaranteed, but check to make sure
     if (!close(1, expectedScores.reduce(sumReducer))) {
-      throw new Error('Expected Scores do not sum to 1');
+      throw new Error("Expected Scores do not sum to 1");
     }
 
-    this.console.log('Calculated expected scores: ', expectedScores);
+    this.console.log("Calculated expected scores: ", expectedScores);
 
     return expectedScores;
   }
