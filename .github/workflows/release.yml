@@ -57,7 +57,7 @@ jobs:
       - name: publish npm
         run: cd lib && npm publish
         env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          NPM_TOKEN: ${{secrets.NPM_TOKEN}}
 
       - name: Commit changes
         run: |
