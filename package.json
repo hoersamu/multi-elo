@@ -1,6 +1,6 @@
 {
   "name": "multi-elo",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "This package implements a multiplayer extension of the popular Elo rating system",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
