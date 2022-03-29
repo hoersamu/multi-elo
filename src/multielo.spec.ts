@@ -38,36 +38,33 @@ describe("MultiElo", () => {
     }) => {
       const elo = new MultiElo({ k, d, s });
       it("should calculate correct expected scores", () => {
-        expect(allClose(trueExpected, elo.getExpectedScores(ratings)));
+        expect(allClose(trueExpected, elo.getExpectedScores(ratings))).toBe(true);
       });
       it("should calculate correct new ratings", () => {
-        expect(allClose(trueNew, elo.getNewRatings(ratings)));
+        expect(allClose(trueNew, elo.getNewRatings(ratings))).toBe(true);
       });
     },
   );
 
-  describe.each([2, 3, 4, 10])(
-    "make sure expected scores sum to 1 and rating changes are zero sum",
-    (numPlayers: number) => {
-      for (let i = 0; i < 10; i++) {
-        const random = (min: number, max: number): number => {
-          return Math.random() * (max - min) + min;
-        };
+  describe.each([2, 3, 4, 10])("make sure expected scores sum to 1 and rating changes are zero sum", (numPlayers: number) => {
+    for (let i = 0; i < 10; i++) {
+      const random = (min: number, max: number): number => {
+        return Math.random() * (max - min) + min;
+      };
 
-        const k = random(16, 64);
-        const d = random(200, 800);
-        const ratings = Array(numPlayers).fill(random(600, 1400));
-        const elo = new MultiElo({ k, d });
+      const k = random(16, 64);
+      const d = random(200, 800);
+      const ratings = Array(numPlayers).fill(random(600, 1400));
+      const elo = new MultiElo({ k, d });
 
-        it("expected scores should sum to 1", () => {
-          expect(close(elo.getExpectedScores(ratings).reduce(sumReducer), 1));
-        });
-        it("shoulnt change ratings sum", () => {
-          expect(close(elo.getNewRatings(ratings).reduce(sumReducer), ratings.reduce(sumReducer)));
-        });
-      }
-    },
-  );
+      it("expected scores should sum to 1", () => {
+        expect(close(elo.getExpectedScores(ratings).reduce(sumReducer), 1)).toBe(true);
+      });
+      it("shoulnt change ratings sum", () => {
+        expect(close(elo.getNewRatings(ratings).reduce(sumReducer), ratings.reduce(sumReducer))).toBe(true);
+      });
+    }
+  });
 
   describe.each`
     result               | resultOrder  | newRatings
@@ -76,35 +73,26 @@ describe("MultiElo", () => {
     ${[1200, 1000, 800]} | ${[1, 2, 2]} | ${[1207.06479284, 989.33333333, 803.60187383]}
     ${[1200, 1000, 800]} | ${[1, 1, 2]} | ${[1196.39812617, 1010.66666667, 792.93520716]}
     ${[1200, 1000, 800]} | ${[1, 1, 1]} | ${[1185.7314595, 1000, 814.2685405]}
-  `(
-    "test ties",
-    ({ result, resultOrder, newRatings }: { result: number[]; resultOrder: number[]; newRatings: number[] }) => {
-      const elo = new MultiElo({ k: 32, d: 400 });
-      it("should calculate correct tie scores", () => {
-        expect(allClose(elo.getNewRatings(result, resultOrder), newRatings));
-      });
-    },
-  );
+  `("test ties", ({ result, resultOrder, newRatings }: { result: number[]; resultOrder: number[]; newRatings: number[] }) => {
+    const elo = new MultiElo({ k: 32, d: 400 });
+    it("should calculate correct tie scores", () => {
+      expect(allClose(elo.getNewRatings(result, resultOrder), newRatings)).toBe(true);
+    });
+  });
 
   describe.each`
-    result               | resultOrder  | newRatings
-    ${[1000, 1000]}      | ${[1, 0]}    | ${[1000, 1000]}
-    ${[1200, 1000]}      | ${[0, 0]}    | ${[1191.6880983472654, 1008.3119016527346]}
-    ${[1200, 1000, 800]} | ${[1, 2, 3]} | ${[1207.06479284, 989.33333333, 803.60187383]}
-    ${[1200, 1000, 800]} | ${[1, 1, 2]} | ${[1196.39812617, 1010.66666667, 792.93520716]}
-  `(
-    "out of order ratings",
-    ({ result, resultOrder, newRatings }: { result: number[]; resultOrder: number[]; newRatings: number[] }) => {
-      const elo = new MultiElo({ k: 32, d: 400 });
+    result               | resultOrder
+    ${[1000, 1000]}      | ${[1, 0]}
+    ${[1200, 1000]}      | ${[0, 0]}
+    ${[1200, 1000, 800]} | ${[1, 2, 3]}
+    ${[1200, 1000, 800]} | ${[1, 1, 2]}
+  `("out of order ratings", ({ result, resultOrder }: { result: number[]; resultOrder: number[] }) => {
+    const elo = new MultiElo({ k: 32, d: 400 });
 
-      it("should match result in revered order", () => {
-        expect(
-          allClose(
-            elo.getNewRatings(result, resultOrder),
-            elo.getNewRatings(result.reverse(), resultOrder.reverse()).reverse(),
-          ),
-        );
-      });
-    },
-  );
+    it("should match result in revered order", () => {
+      expect(allClose(elo.getNewRatings(result, resultOrder), elo.getNewRatings(result.reverse(), resultOrder.reverse()).reverse())).toBe(
+        true,
+      );
+    });
+  });
 });
