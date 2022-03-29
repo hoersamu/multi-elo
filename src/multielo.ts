@@ -64,7 +64,7 @@ export class MultiElo {
    * @param resultOrder list indicating order of finish. See getNewRatings docstring for more info
    * @return array of length n of scores to be assigned to firstplace, second place, and so on
    */
-  private getActualScores(n: number, resultOrder: number[]): number[] {
+  private getActualScores(n: number, resultOrder?: number[]): number[] {
     // calculate actual scores according to score function, then sort in order of finish
     resultOrder = resultOrder || range(n, 1);
     let scores = this.scoreFunction(n);
@@ -73,7 +73,7 @@ export class MultiElo {
     // if there are ties, average the scores of all tied players
     const distinctResults = new Set(resultOrder);
     if (distinctResults.size !== n) {
-      for (const place of Object.keys(distinctResults)) {
+      for (const place of distinctResults) {
         const idx = resultOrder.reduce((accumulator, value, index) => {
           if (value === +place) accumulator.push(index);
           return accumulator;
@@ -84,8 +84,8 @@ export class MultiElo {
       }
     }
 
-    this.console.log(resultOrder);
-    this.console.log("Calculated actual scores: ", scores);
+    this.console.log("resultOrder:", resultOrder);
+    this.console.log("Calculated actual scores:", scores);
     this.validateActualScores(scores, resultOrder);
     return scores;
   }
@@ -152,12 +152,20 @@ export class MultiElo {
     return this.getInstance().getNewRatings(oldRatings, resultOrder);
   }
 
+  static getExpectedScores(ratings: number[]): number[] {
+    return this.getInstance().getExpectedScores(ratings);
+  }
+
   private static getInstance() {
     if (!this.instance) this.instance = new MultiElo();
     return this.instance;
   }
 }
 
-export function getNewRatings(oldRatings: number[], resultOrder?: number[]) {
+export function getNewRatings(oldRatings: number[], resultOrder?: number[]): number[] {
   return MultiElo.getNewRatings(oldRatings, resultOrder);
+}
+
+export function getExpectedScores(ratings: number[]): number[] {
+  return MultiElo.getExpectedScores(ratings);
 }
