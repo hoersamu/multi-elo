@@ -1,5 +1,8 @@
-const decor = (v: number, i: number) => [v, i]; // set index to value
-const undecor = (a: number[]) => a[1]; // leave only index
+/** set index to value */
+const decor = (v: number, i: number) => [v, i];
+/** leave only index */
+const undecor = (a: number[]) => a[1];
+
 export const argsort = (arr: number[]) => arr.map(decor).sort().map(undecor);
 
 /**
@@ -20,10 +23,10 @@ export function range(size: number, startAt: number = 0): number[] {
  *
  * @param a first value
  * @param b second value
- * @param maxDiff maximum Difference. Defaults to 1e-5
+ * @param maxDiff maximum Difference (inclusive). Defaults to 1e-5
  */
 export function close(a: number, b: number, maxDiff = 1e-5): boolean {
-  return Math.abs(a - b) < maxDiff;
+  return Math.abs(a - b) <= maxDiff;
 }
 
 /**
@@ -34,8 +37,9 @@ export function close(a: number, b: number, maxDiff = 1e-5): boolean {
  * @param maxDiff maximum Difference. Defaults to 1e-5
  */
 export function allClose(a: number[], b: number[], maxDiff = 1e-5): boolean {
-  a.forEach((v, i) => {
-    if (!close(v, b[i], maxDiff)) return false;
-  });
+  if (a.length !== b.length) throw new Error("a and b must have the same length");
+  for (let index = 0; index < a.length; index++) {
+    if (!close(a[index], b[index], maxDiff)) return false;
+  }
   return true;
 }
