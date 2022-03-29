@@ -53,7 +53,7 @@ MultiElo.getNewRatings([1200, 900, 1000])
 #  [1208.34629612,  910.43382278,  981.21988111]
 ```
 
-See [`demo.ts`](src/demo.ts) for a more in-depth tutorial, including details on parameters that can be tuned in the Elo algorithm.
+See [`demo.md`](https://github.com/hoersamu/multi-elo/demo.md) for a more in-depth tutorial, including details on parameters that can be tuned in the Elo algorithm.
 
 ## Methodology
 
