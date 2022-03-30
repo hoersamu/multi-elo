@@ -1,6 +1,11 @@
 import { createExponentialScoreFuntion, ScoreFunction, sumReducer } from "./score-functions";
 import { argsort, close, range } from "./utils";
 
+export const DEFAULT_LOG_BASE_VALUE = 10;
+export const DEFAULT_D_VALUE = 400;
+export const DEFAULT_K_VALUE = 32;
+export const DEFAULT_S_VALUE = 1;
+
 export type MultiEloConfig = {
   logBase?: number;
   d?: number;
@@ -14,10 +19,10 @@ export class MultiElo {
   private scoreFunction: ScoreFunction;
   private console: Console | { log: () => void };
   private config: MultiEloConfig = {
-    logBase: 10,
-    d: 400,
-    k: 32,
-    s: 1,
+    logBase: DEFAULT_LOG_BASE_VALUE,
+    d: DEFAULT_D_VALUE,
+    k: DEFAULT_K_VALUE,
+    s: DEFAULT_S_VALUE,
     verbose: false,
   };
 
