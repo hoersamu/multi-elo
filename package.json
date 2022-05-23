@@ -33,7 +33,7 @@
   "homepage": "https://github.com/hoersamu/multi-elo#readme",
   "devDependencies": {
     "@types/jest": "27.4.1",
-    "eslint": "8.14.0",
+    "eslint": "8.16.0",
     "jest": "27.5.1",
     "prettier": "2.6.2",
     "ts-jest": "27.1.4",
