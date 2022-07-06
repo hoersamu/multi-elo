@@ -53,7 +53,7 @@ export class MultiElo {
    */
   getNewRatings(initialRatings: number[], resultOrder?: number[]) {
     const n = initialRatings.length;
-    resultOrder = resultOrder || range(n, 1);
+    resultOrder = resultOrder || range(n, 0);
     const actualScores = this.getActualScores(n, resultOrder);
     const expectedScores = this.getExpectedScores(initialRatings);
     const scaleFactor = this.config.k * (n - 1);
@@ -71,7 +71,7 @@ export class MultiElo {
    */
   private getActualScores(n: number, resultOrder?: number[]): number[] {
     // calculate actual scores according to score function, then sort in order of finish
-    resultOrder = resultOrder || range(n, 1);
+    resultOrder = resultOrder || range(n, 0);
     let scores = this.scoreFunction(n);
     scores = argsort(argsort(resultOrder)).map((i) => scores[i]);
 
