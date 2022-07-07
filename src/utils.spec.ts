@@ -23,11 +23,14 @@ describe("utils", () => {
     ${1}    | ${2}        | ${0}    | ${false}
     ${1}    | ${1 + 1e-6} | ${1e-5} | ${true}
     ${1000} | ${1016}     | ${1e-5} | ${false}
-  `("close", ({ a, b, maxDiff, expectedResult }: { a: number; b: number; maxDiff: number; expectedResult: boolean }) => {
-    it("should validate max difference correctly", () => {
-      expect(close(a, b, maxDiff)).toEqual(expectedResult);
-    });
-  });
+  `(
+    "close",
+    ({ a, b, maxDiff, expectedResult }: { a: number; b: number; maxDiff: number; expectedResult: boolean }) => {
+      it("should validate max difference correctly", () => {
+        expect(close(a, b, maxDiff)).toEqual(expectedResult);
+      });
+    },
+  );
 
   describe.each`
     a                                               | b                                               | maxDiff | expected
