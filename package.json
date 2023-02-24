@@ -2,8 +2,8 @@
   "name": "multi-elo",
   "version": "2.2.0",
   "description": "This package implements a multiplayer extension of the popular Elo rating system",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "test": "jest --config jestconfig.json",
     "test:cov": "jest --config jestconfig.json --collect-coverage",
