@@ -1,3 +1,3 @@
-import { test } from "../src";
+import { MultiElo } from "../dist";
 
-console.log(test());
+console.log(MultiElo.getNewRatings([1200, 900, 1000]));
