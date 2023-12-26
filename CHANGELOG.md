@@ -1,6 +1,10 @@
 # Changelog
 
 
+## v2.3.1
+
+[compare changes](https://github.com/hoersamu/multi-elo/compare/v2.3.0...v2.3.1)
+
 ## v2.3.0
 
 
